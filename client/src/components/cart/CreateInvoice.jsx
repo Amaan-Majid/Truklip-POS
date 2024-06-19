@@ -44,6 +44,7 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
     });
     const truklipProducts = truklipIds.filter((item) => item !== undefined);
     console.log(truklipProducts);
+    //mint NFT
     if (truklipProducts.length > 0) {
       try {
         const result = await axios.post(
@@ -58,6 +59,43 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
       } catch (error) {
         console.log(error);
       }
+    }
+    //generate certificates
+    let currentDate = new Date();
+    let cusName = form.getFieldValue("customerName");
+    let options = { day: "2-digit", month: "2-digit", year: "2-digit" };
+    let formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
+      currentDate
+    );
+    const truklipId = cart.cartItems.map((cartItem) => {
+      if (cartItem.nftCompatible === "no" || cartItem.nftCompatible === "No")
+        return undefined;
+      else return cartItem;
+    });
+    const truklipProduct = truklipId.filter((item) => item !== undefined);
+    console.log("truklip products");
+    console.log(truklipProduct);
+    const certificatesData = [];
+    for (let i = 0; i < truklipProduct.length; i++) {
+      certificatesData.push({
+        title: "TRUKLIP CERTIFICATE",
+        product: truklipProduct[i].title,
+        date: formattedDate,
+        name: cusName,
+        truklipid: truklipProduct[i].truklipId,
+      });
+    }
+    console.log("certificatesData");
+    console.log(certificatesData);
+
+    try {
+      const certificate = await axios.post("http://localhost:4554/pdf", {
+        data: certificatesData,
+      });
+      message.success(certificate.data);
+      console.log(certificate.data);
+    } catch (error) {
+      console.log(error);
     }
     //create bill api
     let floor = Math.floor;
