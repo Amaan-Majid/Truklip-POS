@@ -7,6 +7,7 @@ import StatisticPage from "./pages/StatisticPage";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import ProductPage from "./pages/ProductPage";
+import AccountsPage from "./pages/AccountsPage";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import BlockchainStats from "./pages/BlockchainStats";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/customers" element={<CustomersPage />} />
         <Route path="/statistics" element={<StatisticPage />} />
         <Route path="/bstatistics" element={<BlockchainStats />} />
+        <Route path="/accounts" element={<AccountsPage />} />
         <Route path="/products" element={<ProductPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

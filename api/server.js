@@ -17,6 +17,7 @@ const userRoute = require("./routes/users.js");
 const customerRoute = require("./routes/customer.js");
 const nftRouter = require("./routes/nft.route.js");
 const statsRouter = require("./routes/statistic.route");
+const accountsRouter = require("./routes/account.js");
 app.get("/test", (req, res) => {
   res.send("hello world");
 });
@@ -42,6 +43,7 @@ app.use("/api/users", userRoute);
 app.use("/customer", customerRoute);
 app.use("/nft", nftRouter);
 app.use("/stats", statsRouter);
+app.use("/accounts", accountsRouter);
 app.get("/hello", (req, res) => {
   res.send("working");
 });

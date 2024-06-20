@@ -9,6 +9,7 @@ import {
   UserOutlined,
   BarChartOutlined,
   LogoutOutlined,
+  DollarOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import "./index.css";
@@ -92,6 +93,15 @@ const Header = ({ setSearched }) => {
           >
             <UserOutlined className="md:text-2xl text-xl" />
             <span className="md:text-xs text-[10px]">Customers</span>
+          </Link>
+          <Link
+            to="/accounts"
+            className={`menu-link ${
+              pathname === "/customers" && " text-[#40a9ff]"
+            } `}
+          >
+            <DollarOutlined className="md:text-2xl text-xl" />
+            <span className="md:text-xs text-[10px]">Payments</span>
           </Link>
           <Link
             to="/statistics"

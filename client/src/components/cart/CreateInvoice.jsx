@@ -36,6 +36,35 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
       console.log(error);
     }
   };
+  //pay later
+  async function handlePayLater() {
+    console.log("pay later got clicked!");
+    //send data to db
+    let floor = Math.floor;
+    const totalPayLaterAmount = floor(
+      parseFloat((cart.total + (cart.total * cart.tax) / 100).toFixed(2))
+    );
+    const customerNameForPayment = form.getFieldValue("customerName");
+    const customerPhoneNumberForPayment = form.getFieldValue(
+      "customerPhoneNumber"
+    );
+    try {
+      const result = await axios.post(
+        "http://localhost:4000/accounts/addPayment",
+        {
+          customerName: customerNameForPayment,
+          customerPhoneNumber: customerPhoneNumberForPayment,
+          amount: totalPayLaterAmount,
+        }
+      );
+      message.success(result.data);
+      setIsModalOpen(false);
+      dispatch(reset());
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const onFinish = async (values) => {
     const truklipIds = cart.cartItems.map((cartItem) => {
       if (cartItem.nftCompatible === "no" || cartItem.nftCompatible === "No")
@@ -378,15 +407,24 @@ const CreateInvoice = ({ isModalOpen, setIsModalOpen }) => {
               AED
             </b>
           </div>
-          <div className="flex justify-end">
+          <div className="flex flex-col ml-auto w-fit mt-2">
             <Button
               size="medium"
               type="primary"
-              className="mt-4"
+              className="mb-2 w-40"
               onClick={() => setIsModalOpen(true)}
               htmlType="submit"
             >
               Create Invoice & klipit
+            </Button>
+            <Button
+              size="medium"
+              type="primary"
+              danger
+              className="w-40"
+              onClick={handlePayLater}
+            >
+              Pay later
             </Button>
           </div>
         </Card>
